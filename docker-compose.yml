@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:9.6
+    restart: always
+    volumes:
+      - ./scripts:/scripts
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: admin

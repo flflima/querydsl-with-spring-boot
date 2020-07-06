@@ -1,5 +1,6 @@
 package br.dev.tutorials.querydslwithspringboot.infrastructure.entity;
 
+import com.sun.istack.NotNull;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -15,9 +16,14 @@ public class Pessoa {
     @Id
     private Long id;
 
+    @NotNull
     private String nome;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "endereco_id")
+    @JoinColumn(name = "pessoa_id")
     private List<Endereco> enderecos;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pessoa_id")
+    private List<Telefone> telefones;
 }
