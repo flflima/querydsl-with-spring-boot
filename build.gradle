@@ -18,6 +18,12 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+	compile "com.querydsl:querydsl-core:4.2.2"
+	compile "com.querydsl:querydsl-jpa:4.2.2"
+	annotationProcessor "com.querydsl:querydsl-apt:4.2.2:jpa"
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testCompile "org.assertj:assertj-core:3.6.1"
 }
 
 test {
