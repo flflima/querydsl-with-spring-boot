@@ -1,4 +1,4 @@
-package br.dev.tutorials.querydslwithspringboot;
+package br.dev.tutorials.querydslwithspringboot.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
