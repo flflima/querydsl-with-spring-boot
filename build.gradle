@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.3.1.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
+	id 'org.flywaydb.flyway' version '6.5.0'
 }
 
 group = 'br.dev.tutorials'
@@ -18,14 +19,27 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-	compile "com.querydsl:querydsl-core:4.2.2"
-	compile "com.querydsl:querydsl-jpa:4.2.2"
-	annotationProcessor "com.querydsl:querydsl-apt:4.2.2:jpa"
+
+	// Resolve conflito do querydsl
+	annotationProcessor 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	compile 'com.querydsl:querydsl-jpa:4.2.2'
+	annotationProcessor 'com.querydsl:querydsl-apt:4.2.2:jpa'
+
 	compileOnly 'org.projectlombok:lombok'
+	implementation 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	testCompile "org.assertj:assertj-core:3.6.1"
+
+	testCompile 'org.assertj:assertj-core:3.6.1'
+	compile 'org.postgresql:postgresql:9.4.1212'
 }
 
 test {
 	useJUnitPlatform()
+}
+
+flyway {
+	url = 'jdbc:postgresql://localhost:5432/agenda'
+	user = 'postgres'
+	password = 'admin'
 }
