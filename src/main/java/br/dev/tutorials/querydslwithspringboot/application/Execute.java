@@ -18,7 +18,7 @@ public class Execute implements CommandLineRunner {
   @Override
   public void run(String... args) {
     QPessoa qPessoa = QPessoa.pessoa;
-    BooleanExpression booleanExpression = qPessoa.id.goe(1L);
+    BooleanExpression booleanExpression = qPessoa.id.eq(1L);
     Iterable<Pessoa> pessoas = this.pessoaRepository.findAll(booleanExpression);
 
     log.info("{}", pessoas.iterator().next());
