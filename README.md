@@ -1,15 +1,20 @@
 # QueryDSL with Spring Boot
 
-## Required
+## Obrigatório
 
-- Java 8 or greater
+- Java 8 ou superior
 
-## Build 
+## Postgres no Docker
 ```console
-./gradlew clean build
+docker-compose up
 ```
 
 ## Flyway Migrations
 ```console
 ./gradlew flywayMigrate -i
+```
+
+## Build 
+```console
+./gradlew clean build
 ```

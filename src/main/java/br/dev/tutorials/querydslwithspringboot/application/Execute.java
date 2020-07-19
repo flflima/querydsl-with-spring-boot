@@ -28,25 +28,33 @@ public class Execute implements CommandLineRunner {
 
   @Override
   public void run(String... args) {
+    log.info("Buscando pessoas com o id = 1");
     QPessoa qPessoa = QPessoa.pessoa;
     BooleanExpression booleanExpression = qPessoa.id.eq(1L);
     Iterable<Pessoa> pessoas = this.pessoaRepository.findAll(booleanExpression);
     Streams.stream(pessoas).forEach(p -> log.info("{}", p));
+    log.info(" ");
 
+    log.info("Buscando todos os endereços das pessoas com o id = 1");
     QEndereco qEndereco = QEndereco.endereco;
     BooleanExpression booleanExpression1 = qEndereco.pessoa.id.eq(2L);
     Iterable<Endereco> enderecos = this.enderecoRepository.findAll(booleanExpression1);
     Streams.stream(enderecos).forEach(e -> log.info("{}", e));
+    log.info(" ");
 
+    log.info("Buscando todos os telefones das pessoas com o id >= 3");
     QTelefone qTelefone = QTelefone.telefone;
     BooleanExpression booleanExpression2 = qTelefone.pessoa.id.goe(3L);
     Iterable<Telefone> telefones = this.telefoneRepository.findAll(booleanExpression2);
     Streams.stream(telefones).forEach(t -> log.info("{}", t));
+    log.info(" ");
 
+    log.info("Buscando todos os telefones das pessoas com o id >= 2 e ddd terminado com 3");
     BooleanBuilder builder = new BooleanBuilder();
     builder.and(qTelefone.pessoa.id.goe(2L));
     builder.and(qTelefone.ddd.endsWith("3"));
     Streams.stream(this.telefoneRepository.findAll(builder)).forEach(t -> log.info("{}", t));
+    log.info(" ");
 
     System.exit(0);
   }
