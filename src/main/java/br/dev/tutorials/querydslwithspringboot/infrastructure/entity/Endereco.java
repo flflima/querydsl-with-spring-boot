@@ -20,7 +20,4 @@ public class Endereco {
     private String cidade;
 
     private String estado;
-
-    @ManyToOne
-    private Pessoa pessoa;
 }
