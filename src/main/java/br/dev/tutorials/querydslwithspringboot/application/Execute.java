@@ -12,10 +12,13 @@ import br.dev.tutorials.querydslwithspringboot.infrastructure.repository.Telefon
 import com.google.common.collect.Streams;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import javax.persistence.EntityManager;
 
 @Component
 @Slf4j
@@ -25,6 +28,7 @@ public class Execute implements CommandLineRunner {
   private final PessoaRepository pessoaRepository;
   private final EnderecoRepository enderecoRepository;
   private final TelefoneRepository telefoneRepository;
+  private final EntityManager entityManager;
 
   @Override
   public void run(String... args) {
@@ -53,7 +57,8 @@ public class Execute implements CommandLineRunner {
     BooleanBuilder builder = new BooleanBuilder();
     builder.and(qTelefone.pessoa.id.goe(2L));
     builder.and(qTelefone.ddd.endsWith("3"));
-    Streams.stream(this.telefoneRepository.findAll(builder)).forEach(t -> log.info("{}", t));
+    new JPAQueryFactory(this.entityManager)
+        .selectFrom(qTelefone).where(builder).fetch().forEach(t -> log.info("{}", t));
     log.info(" ");
 
     System.exit(0);
