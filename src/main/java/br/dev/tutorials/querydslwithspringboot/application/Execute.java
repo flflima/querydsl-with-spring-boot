@@ -5,6 +5,7 @@ import br.dev.tutorials.querydslwithspringboot.infrastructure.entity.QEndereco;
 import br.dev.tutorials.querydslwithspringboot.infrastructure.repository.EnderecoRepository;
 import com.google.common.collect.Streams;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,17 +33,21 @@ public class Execute implements CommandLineRunner {
 
     log.info("Com BooleanExpression");
     log.info("Buscando todos os endereços com o id >= 3");
-    Streams.stream(this.enderecoRepository.findAll(qEndereco.id.goe(3L)))
-        .forEach(t -> log.info("{}", t));
+    BooleanExpression booleanExpression = qEndereco.id.goe(3L);
+    Iterable<Endereco> enderecos = this.enderecoRepository.findAll(booleanExpression);
+    Streams.stream(enderecos).forEach(System.out::println);
     log.info(" ");
 
     log.info("Com BooleanBuilder");
     log.info("Buscando todos os endereços com o id >= 2 e bairro terminado com 3");
     long t1 = System.currentTimeMillis();
-    Streams.stream(
-            this.enderecoRepository.findAll(
-                new BooleanBuilder().and(qEndereco.id.goe(2L)).and(qEndereco.bairro.endsWith("3"))))
-        .forEach(t -> log.info("{}", t));
+
+    BooleanBuilder builder = new BooleanBuilder();
+    builder.and(qEndereco.id.goe(2L));
+    builder.and(qEndereco.bairro.endsWithIgnoreCase("a"));
+    Iterable<Endereco> outrosEnderecos = this.enderecoRepository.findAll(builder);
+    Streams.stream(outrosEnderecos).forEach(System.out::println);
+
     long t2 = System.currentTimeMillis();
     log.info("Tempo {} ms", t2 - t1);
     log.info(" ");
